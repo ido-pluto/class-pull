@@ -1,0 +1,50 @@
+{
+  "name": "class-pull",
+  "version": "1.0.0",
+  "description": "Make a pull of classes",
+  "main": "dist/index.js",
+  "type": "module",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "files": [
+    "dist/",
+    "package.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "ts-node-esm tests/pull.test.ts",
+    "build": "tsc --build tsconfig.json --force"
+  },
+  "devDependencies": {
+    "@types/node": "^20.4.9",
+    "@typescript-eslint/eslint-plugin": "^6.3.0",
+    "@typescript-eslint/parser": "^6.3.0",
+    "eslint": "^8.46.0",
+    "eslint-plugin-import": "^2.28.0",
+    "eslint-plugin-node": "github:giladgd/eslint-plugin-node#dev/giladgd/fixImportExtentionFixingInTypeScript",
+    "husky": "^8.0.3",
+    "semantic-release": "^21.0.7",
+    "ts-node": "^10.9.1",
+    "tslib": "^2.6.1",
+    "typescript": "^5.1.6"
+  },
+  "keywords": [
+    "class",
+    "class-lock",
+    "process-pull",
+    "class-pull",
+    "worker-farm",
+    "farm",
+    "class-farm",
+    "share-pull-class",
+    "share-class",
+    "lock-class",
+    "lock-pull",
+    "task-pull"
+  ],
+  "author": "Ido S.",
+  "license": "MIT"
+}
