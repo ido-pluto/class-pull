@@ -58,10 +58,7 @@ export default class ClassPull<T> {
         if (haveInstance) {
             haveInstance.locked = true;
             await haveInstance.instance;
-            return {
-                instance: haveInstance.instance,
-                unlock: () => this._unlockedInstance(haveInstance),
-            };
+            return this._createUserInstance(haveInstance);
         }
 
         let resolve: (item: UserGetInstance<T>) => void;
@@ -94,9 +91,23 @@ export default class ClassPull<T> {
             return;
         }
 
-        pull({
+        pull(
+            this._createUserInstance(item)
+        );
+    }
+
+    private _createUserInstance(item: ClassPullItem): UserGetInstance<T> {
+        let beenUnload = false;
+        return {
             instance: item.instance,
-            unlock: () => this._unlockedInstance(item),
-        });
+            unlock: () => {
+                if(beenUnload){
+                    return;
+                }
+
+                beenUnload = true;
+                this._unlockedInstance(item);
+            }
+        };
     }
 }
