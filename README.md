@@ -5,6 +5,7 @@
 [![npm version](https://badge.fury.io/js/class-pull.svg)](https://badge.fury.io/js/catai)
 [![npm downloads](https://img.shields.io/npm/dt/class-pull.svg)](https://www.npmjs.com/package/catai)
 [![GitHub license](https://img.shields.io/github/license/ido-pluto/class-pull)](./LICENSE)
+[![semantic-release: node](https://img.shields.io/badge/semantic--release-node-5dae47?logo=semantic-release)](https://github.com/semantic-release/semantic-release)
 
 </div>
 

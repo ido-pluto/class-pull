@@ -46,5 +46,13 @@
     "task-pull"
   ],
   "author": "Ido S.",
-  "license": "MIT"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ido-pluto/class-pull.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ido-pluto/class-pull/issues"
+  },
+  "homepage": "https://github.com/ido-pluto/class-pull#readme"
 }
