@@ -1,4 +1,4 @@
-export type ClassPullOptions = {
+export type ClassPullOptions= {
     limit?: number;
     createOnInit?: number;
 }
@@ -7,26 +7,22 @@ const DEFAULT_CLASS_PULL_OPTIONS: ClassPullOptions = {
     limit: 10,
 };
 
-export abstract class PullableClass {
-    public init?(): Promise<any> | void;
-}
-
 type ClassPullItem = {
     instance: any;
-    loading: Promise<any> | boolean;
+    loading: boolean;
     locked: boolean;
 }
 
-type UserGetInstance<T extends typeof PullableClass> = {
-    instance: InstanceType<T>
+type UserGetInstance<T> = {
+    instance: T
     unlock: () => void;
 }
 
-export default class ClassPull<T extends typeof PullableClass> {
+export default class ClassPull<T> {
     private _pull: ClassPullItem[] = [];
     private _waitPull: ((item: UserGetInstance<T>) => void)[] = [];
 
-    constructor(protected _classRef: T, protected _options: ClassPullOptions = {}) {
+    constructor(protected _createInstance: () => T | Promise<T>, protected _options: ClassPullOptions = {}) {
         this._options = Object.assign({}, DEFAULT_CLASS_PULL_OPTIONS, _options);
         this._init();
     }
@@ -61,7 +57,7 @@ export default class ClassPull<T extends typeof PullableClass> {
         const haveInstance = this._freeInstance || await this._createLockedInstance();
         if (haveInstance) {
             haveInstance.locked = true;
-            await haveInstance.loading;
+            await haveInstance.instance;
             return {
                 instance: haveInstance.instance,
                 unlock: () => this._unlockedInstance(haveInstance),
@@ -80,12 +76,11 @@ export default class ClassPull<T extends typeof PullableClass> {
             return null;
         }
 
-        const pullItem: ClassPullItem = {locked, loading: true, instance: new (this._classRef as any)()};
+        const pullItem: ClassPullItem = {locked, loading: true, instance: this._createInstance()};
         this._pull.push(pullItem);
 
-        if(pullItem.instance.init){
-            pullItem.loading = pullItem.instance.init?.() || false;
-            await pullItem.loading;
+        if(pullItem.instance instanceof Promise){
+            pullItem.instance = await pullItem.instance;
         }
 
         pullItem.loading = false;

@@ -1,36 +1,32 @@
-import {ClassPull, PullableClass} from "../src/index.js";
+import {ClassPull} from '../src/index.js';
 
-class examplePull extends PullableClass {
-    constructor() {
-        super();
-    }
-
+class ExamplePull {
+    counter = 0;
     sleep(ms = 1000) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 }
 
-const pull = new ClassPull(examplePull, {
-    limit: 2,
-});
+const pull = new ClassPull(
+    () => new ExamplePull(),
+    {
+        limit: 2
+    }
+);
 
-let counter = 0;
-async function doSomething() {
-
-    const count = ++counter;
-    console.time('doSomething' + count);
-
+async function countRef() {
     const {instance, unlock} = await pull.lockInstance();
 
     await instance.sleep(1000);
-
-    console.timeEnd('doSomething' + count);
+    console.log('counter', ++instance.counter);
     unlock();
 }
 
 
-function main(){
+function main() {
     for (let i = 0; i < 5; i++) {
-        doSomething();
+        countRef();
     }
-} main();
+}
+
+main();

@@ -19,66 +19,58 @@ With this package, you can:
 ### Use example
 
 ```javascript
-import {ClassPull, PullableClass} from "class-pull";
+import {ClassPull} from '../src/index.js';
 
-class MySleepyClass extends PullableClass {
-    constructor() {
-        super();
-    }
-
+class ExamplePull {
+    counter = 0;
     sleep(ms = 1000) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 }
 
-const pull = new ClassPull(MySleepyClass, {
-    limit: 2,
-});
+const pull = new ClassPull(
+    () => new ExamplePull(),
+    {
+        limit: 2
+    }
+);
 
-let counter = 0;
-
-async function doSomething() {
-
-    const count = ++counter;
-    console.time('doSomething' + count);
-
+async function countRef() {
     const {instance, unlock} = await pull.lockInstance();
 
     await instance.sleep(1000);
-
-    console.timeEnd('doSomething' + count);
+    console.log('counter', ++instance.counter);
     unlock();
 }
 
 
 function main() {
     for (let i = 0; i < 5; i++) {
-        doSomething();
+        countRef();
     }
-}
+} main();
 
-main();
 
 /**
  * Output:
- * doSomething1: 1s
- * doSomething2: 1s
- * doSomething3: 2s
- * doSomething4: 2s
- * doSomething5: 3s
+ * counter 1
+ * counter 1
+ * counter 2
+ * counter 2
+ * counter 3
  */
 ```
 
 ### API
 ```typescript
 interface ClassPull {
-    new (classRef: T, options: ClassPullOptions);
+    new (createInstance: () => T | Promise<T>, options: ClassPullOptions);
     lockInstance(): Promise<lockInstanceItem>;
     loadingCount: number;
     freeCount: number;
 }
 
-type ClassPullOptions = {
+type ClassPullOptions= {
     limit?: number;
     createOnInit?: number;
 }
