@@ -4,7 +4,7 @@
 
 [![npm version](https://badge.fury.io/js/class-pull.svg)](https://badge.fury.io/js/catai)
 [![npm downloads](https://img.shields.io/npm/dt/class-pull.svg)](https://www.npmjs.com/package/catai)
-[![GitHub license](https://img.shields.io/github/license/withcatai/class-pull)](./LICENSE)
+[![GitHub license](https://img.shields.io/github/license/ido-pluto/class-pull)](./LICENSE)
 
 </div>
 
